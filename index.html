@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>cini Games - Professional Betting</title>
+    <title>Cini Games - Professional Betting</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,12 +12,12 @@
     <header class="navbar">
         <div class="nav-left">
             <span class="menu-icon" onclick="toggleProfileMenu()">☰</span>
-            <div class="logo">cini GAMES</div>
+            <div class="logo">CINI GAMES</div>
         </div>
         
         <div class="nav-auth-buttons" id="navButtons">
-            <button onclick="openModal('registerModal')" class="btn-register">Register</button>
-            <button onclick="openModal('loginModal')" class="btn-login">Login</button>
+            <button onclick="switchTab('registerTab')" class="btn-register">Register</button>
+            <button onclick="switchTab('loginTab')" class="btn-login">Login</button>
         </div>
 
         <div class="user-panel" id="userPanel" style="display:none;">
@@ -54,7 +54,7 @@
             <div class="games-grid" id="gamesGrid"></div>
         </section>
 
-        <!-- Sport Section ( Matches - Aligned with Provided Photo) -->
+        <!-- Sport Section -->
         <section id="sportTab" class="tab-content active-section">
             <div class="sport-sub-header">
                 <span class="live-indicator">🟢 1st half 46:24</span>
@@ -80,13 +80,13 @@
                     </div>
                     <input type="number" id="depositAmountInput" placeholder="የብር መጠን ያስገቡ" autocomplete="off">
                     <button onclick="submitDepositStep1()" class="btn-blue">ቀጥል (Continue)</button>
-
+                    
                     <!-- SMS Paste Section -->
                     <div id="smsSection" style="display:none; margin-top: 15px;">
-<p class="info-text">የቴሌብር SMS ማረጋገጫ ኮድ እዚህ Paste ያድርጉ:</p>
-                        <textarea id="smsInput" placeholder="የ SMS መልእክት እዚህ ይለጥፉ (Paste)..." rows="3"></textarea>
+                        <p class="info-text">የቴሌብር SMS ማረጋገጫ ኮድ እዚህ Paste ያድርጉ:</p>
+                   <textarea id="smsInput" placeholder="የ SMS መልእክት እዚህ ይለጥፉ (Paste)..." rows="3"></textarea>
                         <button onclick="submitSmsCode()" class="btn-blue">SMS አረጋግጥ (Confirm)</button>
-                        <p class="waiting-text" id="waitingMsg" style="display:none; color: #004080; margin-top: 10px; font-weight: bold;">
+                        <p class="waiting-text" id="waitingMsg" style="display:none; color: #ffcc00; margin-top: 10px; font-weight: bold;">
                             ትንሽ ይቆዩ ኤጀንቱ ክፍያውን confirm እስኪያደርገው ይጠብቁ...
                         </p>
                     </div>
@@ -101,11 +101,47 @@
             <button onclick="openGame('Keno')" class="btn-blue">Keno ጀምር</button>
         </section>
 
+        <!-- Login Page Tab -->
+        <section id="loginTab" class="tab-content">
+            <div class="deposit-page-container">
+                <h2>Login Page</h2>
+                <div class="deposit-box">
+                    <input type="text" id="loginPhone" placeholder="ስልክ ቁጥር" autocomplete="off">
+                    <input type="password" id="loginPass" placeholder="ፓስወርድ" autocomplete="off">
+                    <button onclick="loginUser()" class="btn-blue">Login</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Register Page Tab -->
+        <section id="registerTab" class="tab-content">
+            <div class="deposit-page-container">
+                <h2>Register Page</h2>
+                <div class="deposit-box">
+                    <input type="text" id="regPhone" placeholder="ስልክ ቁጥር" autocomplete="off">
+                    <input type="password" id="regPass" placeholder="ፓስወርድ" autocomplete="off">
+                    <button onclick="registerUser()" class="btn-blue">Register</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Withdraw Page Tab -->
+        <section id="withdrawTab" class="tab-content">
+            <div class="deposit-page-container">
+                <h2>Withdraw Page (Telebirr)</h2>
+                <div class="deposit-box">
+                    <p style="font-size: 13px; color: #aaa; margin-bottom: 10px;">ኤጀንት: Mohamed Abdulkarim (0997791266)</p>
+                    <input type="number" id="withdrawAmount" placeholder="የሚወጣውን የብር መጠን" autocomplete="off">
+                    <button onclick="requestWithdraw()" class="btn-red">Withdraw አድርግ</button>
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <!-- Fixed Bottom Navigation Bar (Matched with Photo layout) -->
+    <!-- Fixed Bottom Navigation Bar -->
     <nav class="bottom-nav-bar">
-        <button onclick="switchTab('sportTab')" class="active-tab" id="tabBtnSport">⚽ Sports</button>
+        <button onclick="switchTab('sportTab')" class="active-tab" id="tabBtnSport">⚽️ Sports</button>
         <button onclick="switchTab('gamesTab')" id="tabBtnGames">🎮 Games</button>
         <button onclick="switchTab('depositTab')" id="tabBtnDeposit">💳 Deposit</button>
         <button onclick="switchTab('kenoTab')" id="tabBtnKeno">🎱 Keno</button>
@@ -114,7 +150,7 @@
 
     <!-- Profile Menu Dropdown Modal -->
     <div id="profileDropdown" class="dropdown-menu" style="display:none;">
-        <a href="#" onclick="openModal('withdrawModal'); toggleProfileMenu();">Withdraw</a>
+        <a href="#" onclick="switchTab('withdrawTab'); toggleProfileMenu();">Withdraw</a>
         <a href="#" onclick="openModal('passwordModal'); toggleProfileMenu();">Password Change</a>
         <a href="#" onclick="openSupport(); toggleProfileMenu();">Support</a>
         <a href="#" onclick="openModal('betHistoryModal'); toggleProfileMenu();">Bet History</a>
@@ -127,37 +163,7 @@
         <a href="#" onclick="logout();" class="btn-red">Logout</a>
     </div>
 
-    <!-- Modals -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('loginModal')">&times;</span>
-            <h2>Login Page</h2>
-            <input type="text" id="loginPhone" placeholder="ስልክ ቁጥር" autocomplete="off">
-            <input type="password" id="loginPass" placeholder="ፓስወርድ" autocomplete="off">
-            <button onclick="loginUser()" class="btn-blue">Login</button>
-        </div>
-    </div>
-
-    <div id="registerModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('registerModal')">&times;</span>
-            <h2>Register Page</h2>
-            <input type="text" id="regPhone" placeholder="ስልክ ቁጥር" autocomplete="off">
-            <input type="password" id="regPass" placeholder="ፓስወርድ" autocomplete="off">
-            <button onclick="registerUser()" class="btn-blue">Register</button>
-        </div>
-    </div>
-
-    <div id="withdrawModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('withdrawModal')">&times;</span>
-            <h2>Withdraw Page (Telebirr)</h2>
-            <p style="font-size: 13px; color: #666; margin-bottom: 10px;">ኤጀንት: Mohamed Abdulkarim (0997791266)</p>
-            <input type="number" id="withdrawAmount" placeholder="የሚወጣውን የብር መጠን" autocomplete="off">
-            <button onclick="requestWithdraw()" class="btn-red">Withdraw አድርግ</button>
-        </div>
-</div>
-
+    <!-- Modals (Other secondary pages) -->
     <div id="passwordModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('passwordModal')">&times;</span>
@@ -232,25 +238,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        
