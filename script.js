@@ -8,11 +8,11 @@ const gameNames = [
 ];
 
 const sportLeagues = [
-    "⚽️ Armenia. Premier League", 
+    "⚽ Armenia. Premier League", 
     "🏀 Israel. Super League", 
     "🎾 WTA 250. Chennai. Hard. India", 
-    "⚽️ English Premier League", 
-    "⚽️ Spanish La Liga"
+    "⚽ English Premier League", 
+    "⚽ Spanish La Liga"
 ];
 
 const sportMatches = Array.from({length: 50}, (_, i) => {
@@ -112,7 +112,7 @@ function startBannerSlider() {
         slides[currentSlide].classList.remove('active');
         currentSlide = (currentSlide + 1) % slides.length;
         slides[currentSlide].classList.
-            add('active');
+          add('active');
     }, 3500);
 }
 
@@ -138,8 +138,7 @@ function switchTab(tabId) {
     let bannerSec = document.getElementById('mainBannerSection');
     let scrollSec = document.getElementById('mainScrollSection');
     
-    // ባነር እና ተወዳጅ ጨዋታዎች የማይታዩባቸው ገጾች
-    if(tabId === 'depositTab'  tabId === 'withdrawTab'  tabId === 'loginTab'  tabId === 'registerTab'  tabId === 'liveTvTab') {
+    if(tabId === 'depositTab' || tabId === 'liveTvTab') {
         if(bannerSec) bannerSec.style.display = 'none';
         if(scrollSec) scrollSec.style.display = 'none';
     } else {
@@ -152,10 +151,7 @@ function switchTab(tabId) {
         tabId = 'sportTab';
     }
 
-    let targetTab = document.getElementById(tabId);
-    if(targetTab) {
-        targetTab.classList.add('active-section');
-    }
+    document.getElementById(tabId).classList.add('active-section');
     
     if(tabId === 'sportTab') document.getElementById('tabBtnSport').classList.add('active-tab');
     if(tabId === 'gamesTab') document.getElementById('tabBtnGames').classList.add('active-tab');
@@ -164,13 +160,10 @@ function switchTab(tabId) {
 }
 
 function openModal(modalId) {
-    let modal = document.getElementById(modalId);
-    if(modal) modal.style.display = 'block';
+    document.getElementById(modalId).style.display = 'block';
 }
-
 function closeModal(modalId) {
-    let modal = document.getElementById(modalId);
-    if(modal) modal.style.display = 'none';
+    document.getElementById(modalId).style.display = 'none';
 }
 
 function toggleProfileMenu() {
@@ -182,7 +175,7 @@ function registerUser() {
     let phone = document.getElementById('regPhone').value;
     if(!phone) { alert("እባክዎ ስልክ ቁጥር ያስገቡ"); return; }
     alert("well come!");
-    switchTab('gamesTab');
+    closeModal('registerModal');
     loginSuccess(phone);
 }
 
@@ -190,7 +183,7 @@ function loginUser() {
     let phone = document.getElementById('loginPhone').value;
     if(!phone) { alert("እባክዎ ስልክ ቁጥር ያስገቡ"); return; }
     alert("well come back!");
-    switchTab('gamesTab');
+    closeModal('loginModal');
     loginSuccess(phone);
 }
 
@@ -207,7 +200,6 @@ function logout() {
     document.getElementById('profileDropdown').style.display = 'none';
     userBalance = 0.00;
     updateBalanceDisplay();
-    switchTab('sportTab');
 }
 
 function updateBalanceDisplay() {
@@ -230,6 +222,7 @@ function submitSmsCode() {
     if(!sms) { alert("እባክዎ የ SMS መልእክት ይለጥፉ (Paste)"); return; }
     document.getElementById('waitingMsg').style.display = 'block';
 }
+
 function requestWithdraw() {
     let amt = parseFloat(document.getElementById('withdrawAmount').value) || 0;
     
@@ -246,7 +239,7 @@ function requestWithdraw() {
     userBalance -= amt;
     updateBalanceDisplay();
     alert("የ Withdraw ጥያቄዎ በ Telebirr በኩል ተልኳል (ኤጀንት: 0997791266)");
-    switchTab('gamesTab');
+    closeModal('withdrawModal');
 }
 
 function openSupport() {
